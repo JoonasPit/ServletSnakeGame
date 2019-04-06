@@ -1,0 +1,64 @@
+body {
+	background-color: whitesmoke;
+	font-style: font-family: 'Oxygen', sans-serif;
+}
+
+.button {
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	font-family: 'Bungee Inline', cursive;
+}
+.inputfield {
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	text-align: center;
+}
+
+h1 {
+	font-family: 'Bungee Inline', cursive;
+	font-size: 30px;
+	text-align: center;
+	
+}
+h2 {
+	font-family: 'Bungee Inline', cursive;
+	font-size: 40px;
+	
+}
+
+
+p {
+	font-family: 'Bungee Inline', cursive;
+}
+.topnav {
+ 	 overflow: hidden;
+  	background-color: black;
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	font-family: 'Bungee Inline', cursive;
+}
+
+.topnav a {
+	float: left;
+	color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav a:hover {
+  background-color: whitesmoke;
+  color: black;
+}
+.button {
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.radio{
+	font-size: 17px;
+}
+canvas{
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+	display: block;
+	margin: 0 auto;
+}
+.current{
+	font-size: 17px;
+}
