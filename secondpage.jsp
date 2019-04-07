@@ -80,8 +80,8 @@
       // call createfunction to create first pellet
       createPellet();
       
-      // Call changeDirection whenever a key is pressed
-      document.addEventListener("keydown", changeDirection);
+      // Call snakeDirection whenever a key is pressed
+      document.addEventListener("keydown", snakeDirection);
       function main() {
         if (didGameEnd()) return;
         setTimeout(function onTick() {
@@ -152,31 +152,29 @@
           snake.pop();
         }
       }
-      /**
-       * Generates a random number that is a multiple of 10 given a minumum
-       * and a maximum number
-       * @param { number } min - The minimum number the random number can be
-       * @param { number } max - The maximum number the random number can be
-       */
+      
+       // Generates a random number that is a multiple of 10 given a minumum
+       //  and a maximum number
+
       function randomTen(min, max) {
         return Math.round((Math.random() * (max-min) + min) / 10) * 10;
       }
-      /**
-       * Creates random set of coordinates for the snake food.
-       */
+      	//Creates random set of coordinates for the snake food.
+      
       function createPellet() {
         // Generate a random number the food x-coordinate
+        
         foodirx = randomTen(0, gameCanvas.width - 10);
         // Generate a random number for the food y-coordinate
+        
         foodir = randomTen(0, gameCanvas.height - 10);
         // if the new food location is where the snake currently is, generate a new food location
         snake.forEach(function isOnSnake(part) {
           if (part.x == foodirx && part.y == foodir) createPellet();
         });
       }
-      /**
-       * Draws the snake on the canvas
-       */
+
+       // Draws the snake on the canvas
       function drawSnake() {
         // loop through the snake parts drawing each part on the canvas
         snake.forEach(drawSnakePart)
@@ -196,37 +194,33 @@
         // Draw a border around the snake part
         ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
       }
-      /**
-       * Changes the vertical and horizontal velocity of the snake according to the
-       * key that was pressed.
-       * The direction cannot be switched to the opposite direction, to prevent the snake
-       * from reversing
-       * For example if the the direction is 'right' it cannot become 'left'
-       * @param { object } event - The keydown event
-       */
-      function changeDirection(event) {
-        const LEFT_KEY = 37;
-        const RIGHT_KEY = 39;
-        const UP_KEY = 38;
-        const DOWN_KEY = 40;
-        const keyPressed = event.keyCode;
-        const goingUp = dir === -10;
+      
+       // Makes the arrow keys switch the direction of the snake
+       
+      function snakeDirection(event) {
+        const ARROW_LEFT = 37;
+        const ARROW_RIGHT = 39;
+        const ARROW_UP = 38;
+        const ARROW_DOWN = 40;
+        const keyPress = event.keyCode;
+        const snakeUp = dir === -10;
         const goingDown = dir === 10;
         const goingRight = dirx === 10;
         const goingLeft = dirx === -10;
-        if (keyPressed === LEFT_KEY && !goingRight) {
+        // makes it so one can not swap to opposite direction
+        if (keyPress === ARROW_LEFT && !goingRight) {
           dirx = -10;
           dir = 0;
         }
-        if (keyPressed === UP_KEY && !goingDown) {
+        if (keyPress === ARROW_UP && !goingDown) {
           dirx = 0;
           dir = -10;
         }
-        if (keyPressed === RIGHT_KEY && !goingLeft) {
+        if (keyPress === ARROW_RIGHT && !goingLeft) {
           dirx = 10;
           dir = 0;
         }
-        if (keyPressed === DOWN_KEY && !goingUp) {
+        if (keyPress === ARROW_DOWN && !snakeUp) {
           dirx = 0;
           diry = 10;
         }
