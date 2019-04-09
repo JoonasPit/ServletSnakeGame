@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-	<link rel="stylesheet" href ="css/styles.css">
+	<link rel="stylesheet" href ="${pageContext.request.contextPath}/css/styles.css">
 	<link href="https://fonts.googleapis.com/css?family=Bungee+Inline" rel="stylesheet"> 
 	<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet"> 
 <html>
@@ -10,8 +10,10 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>SecondPage</title>
 </head>
-	<bodir>
+	<body>
 	<h1>The Second Page</h1>
+	
+	
 	<p class ="playingas">Currently playing as: <c:out value="${inUserName}"></c:out></p>
 	<input type = "hidden" value="${inColor}" id= "jsInColor">
 
@@ -19,7 +21,7 @@
 
 		<div id ="current">Current Score: </div><div id = "score">0</div>
 	 <script>
-      /** constants and variables**/
+      // constants and variables
       
       var snakeColor = document.getElementById('jsInColor').value;
 	
@@ -83,7 +85,19 @@
       // Call snakeDirection whenever a key is pressed
       document.addEventListener("keydown", snakeDirection);
       function main() {
-        if (didGameEnd()) return;
+        if (didGameEnd()){
+        	var refresh = confirm("Your score was: " + score + "\nPress Ok to replay\nCancel submits score");
+        	if(refresh == true){
+        		location.reload();
+        	}
+        	
+        	else if (refresh == false){
+        		
+        		// make cancel send info to server to put in to leaderboard
+        		window.location.href ="${pageContext.request.contextPath}/view/scoreboard.jsp";
+        	}
+        	return;
+        }
         setTimeout(function onTick() {
           clearCanvas();
           drawFood();
@@ -93,7 +107,6 @@
           main();
         }, 100)
       }
-
       
       
       function clearCanvas() {
@@ -120,24 +133,56 @@
         const hitBottomWall = snake[0].y > gameCanvas.height - 10;
         return hitLeftWall || hitRightWall || hitToptWall || hitBottomWall
       }
-      /**
-       * Draw the food on the canvas
-       */
+      
+      // Makes the arrow keys switch the direction of the snake
+      
+      function snakeDirection(event) {
+    	const ARROW_UP = 38; 
+        const ARROW_DOWN = 40;
+        const ARROW_RIGHT = 39;
+        const ARROW_LEFT = 37;
+        
+        const keyPress = event.keyCode;
+        const snakeUp = dir === -10;
+        const goingDown = dir === 10;
+        const goingRight = dirx === 10;
+        const goingLeft = dirx === -10;
+        // makes it so one can not swap to opposite direction
+        if (keyPress === ARROW_LEFT && !goingRight) {
+          dirx = -10;
+          dir = 0;
+        }
+        if (keyPress === ARROW_UP && !goingDown) {
+          dirx = 0;
+          dir = -10;
+        }
+        if (keyPress === ARROW_RIGHT && !goingLeft) {
+          dirx = 10;
+          dir = 0;
+        }
+        if (keyPress === ARROW_DOWN && !snakeUp) {
+          dirx = 0;
+          dir = 10;
+        }
+      }
+      
+      // Draw the food on the canvas
+       
       function drawFood() {
         ctx.fillStyle = PELLET_COLOR;
         ctx.strokestyle = BORDER_COLOR_PELLET;
         ctx.fillRect(foodirx, foodir, 10, 10);
         ctx.strokeRect(foodirx, foodir, 10, 10);
       }
-      /**
-       * Advances the snake by changing the x-coordinates of its parts
-       * according to the horizontal velocity and the y-coordinates of its parts
-       * according to the vertical veolocity
-       */
+      
+       // Advances the snake by changing the x-coordinates of its parts
+       // according to the horizontal velocity and the y-coordinates of its parts
+       // according to the vertical velocity
+       
       function advanceSnake() {
         // Create the new Snake's head
         const head = {x: snake[0].x + dirx, y: snake[0].y + dir};
-        // Add the new head to the beginning of snake bodir
+        // Add the new head to the beginning of snake body
         snake.unshift(head);
         const didEatFood = snake[0].x === foodirx && snake[0].y === foodir;
         if (didEatFood) {
@@ -155,7 +200,6 @@
       
        // Generates a random number that is a multiple of 10 given a minumum
        //  and a maximum number
-
       function randomTen(min, max) {
         return Math.round((Math.random() * (max-min) + min) / 10) * 10;
       }
@@ -173,7 +217,6 @@
           if (part.x == foodirx && part.y == foodir) createPellet();
         });
       }
-
        // Draws the snake on the canvas
       function drawSnake() {
         // loop through the snake parts drawing each part on the canvas
@@ -195,36 +238,7 @@
         ctx.strokeRect(snakePart.x, snakePart.y, 10, 10);
       }
       
-       // Makes the arrow keys switch the direction of the snake
-       
-      function snakeDirection(event) {
-        const ARROW_LEFT = 37;
-        const ARROW_RIGHT = 39;
-        const ARROW_UP = 38;
-        const ARROW_DOWN = 40;
-        const keyPress = event.keyCode;
-        const snakeUp = dir === -10;
-        const goingDown = dir === 10;
-        const goingRight = dirx === 10;
-        const goingLeft = dirx === -10;
-        // makes it so one can not swap to opposite direction
-        if (keyPress === ARROW_LEFT && !goingRight) {
-          dirx = -10;
-          dir = 0;
-        }
-        if (keyPress === ARROW_UP && !goingDown) {
-          dirx = 0;
-          dir = -10;
-        }
-        if (keyPress === ARROW_RIGHT && !goingLeft) {
-          dirx = 10;
-          dir = 0;
-        }
-        if (keyPress === ARROW_DOWN && !snakeUp) {
-          dirx = 0;
-          diry = 10;
-        }
-      }
+
     </script>
-</bodir>
+</body>
 </html>
